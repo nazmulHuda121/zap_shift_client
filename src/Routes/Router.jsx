@@ -6,6 +6,9 @@ import Coverage from '../Pages/Coverage';
 import AboutUs from '../Pages/AboutUs';
 import Pricing from '../Pages/Pricing';
 import BeARider from '../Pages/BeARider';
+import AuthLayout from '../Layouts/AuthLayout';
+import Login from '../Pages/Auth/Login';
+import Register from '../Pages/Auth/Register';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +26,8 @@ const router = createBrowserRouter([
       {
         path: '/coverage',
         Component: Coverage,
+        loader: () => fetch('/warehouses.json').then((res) => res.json()),
+        hydrateFallbackElement: true,
       },
       {
         path: '/about-us',
@@ -35,6 +40,20 @@ const router = createBrowserRouter([
       {
         path: '/be-a-rider',
         Component: BeARider,
+      },
+    ],
+  },
+  {
+    path: '/',
+    element: <AuthLayout></AuthLayout>,
+    children: [
+      {
+        path: '/login',
+        Component: Login,
+      },
+      {
+        path: '/register',
+        Component: Register,
       },
     ],
   },
