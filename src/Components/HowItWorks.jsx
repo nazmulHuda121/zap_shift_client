@@ -1,3 +1,5 @@
+import bookingIcon from '../assets/bookingIcon.png';
+
 export const HowItWorks = () => {
   const items = [
     {
@@ -27,7 +29,10 @@ export const HowItWorks = () => {
             key={i}
             className="bg-white p-6 rounded-xl shadow hover:shadow-md transition"
           >
-            <div className="text-4xl mb-3">📦</div>
+            <div className="text-4xl mb-3">
+              <img src={bookingIcon} alt="booking-icon" />
+            </div>
+
             <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
             <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
           </div>

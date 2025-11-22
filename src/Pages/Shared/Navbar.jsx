@@ -1,8 +1,21 @@
 import { Link, NavLink } from 'react-router';
-import { BsGithub } from 'react-icons/bs';
 import Logo from '../../Components/Logo';
+import useAuth from '../../hooks/useAuth';
+import { auth } from '../../firebase/firebase.config';
+import { toast } from 'react-toastify';
 
 const Header = () => {
+  const { user, logOut } = useAuth();
+  const handleLogOut = () => {
+    logOut(auth)
+      .then(() => {
+        toast('Log Out Successful');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const nav = (
     <>
       <li>
@@ -27,8 +40,8 @@ const Header = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/be-a-rider" className="text-gray-500">
-          Be a Ride
+        <NavLink to="/send-parcel" className="text-gray-500">
+          Send Parcel
         </NavLink>
       </li>
     </>
@@ -62,15 +75,25 @@ const Header = () => {
               {nav}
             </ul>
           </div>
-            <Logo />
-          
+          <Logo />
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 gap-5">{nav}</ul>
         </div>
         <div className="navbar-end gap-3">
-          <a className=" btn ">Sign In</a>
-          <a className=" btn ">Be a Rider</a>
+          {user ? (
+            <a onClick={handleLogOut} className="btn">
+              Log Out
+            </a>
+          ) : (
+            <Link to={'/login'}>
+              <a className=" btn ">Log In</a>
+            </Link>
+          )}
+
+          <Link to="/rider">
+            <a className=" btn ">Be a Rider</a>
+          </Link>
         </div>
       </div>
     </div>

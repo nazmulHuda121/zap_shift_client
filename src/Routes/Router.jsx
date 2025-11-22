@@ -5,10 +5,13 @@ import Service from '../Pages/Service';
 import Coverage from '../Pages/Coverage';
 import AboutUs from '../Pages/AboutUs';
 import Pricing from '../Pages/Pricing';
-import BeARider from '../Pages/BeARider';
 import AuthLayout from '../Layouts/AuthLayout';
 import Login from '../Pages/Auth/Login';
 import Register from '../Pages/Auth/Register';
+import Loading from '../Components/Loading';
+import PrivateRoute from './PrivateRoute';
+import Rider from '../Components/Rider';
+import SendParcel from '../Pages/SendParcel';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +30,7 @@ const router = createBrowserRouter([
         path: '/coverage',
         Component: Coverage,
         loader: () => fetch('/warehouses.json').then((res) => res.json()),
-        hydrateFallbackElement: true,
+        hydrateFallbackElement: <Loading />,
       },
       {
         path: '/about-us',
@@ -38,8 +41,21 @@ const router = createBrowserRouter([
         Component: Pricing,
       },
       {
-        path: '/be-a-rider',
-        Component: BeARider,
+        path: '/send-parcel',
+        element: (
+          <PrivateRoute>
+            <SendParcel />
+          </PrivateRoute>
+        ),
+        loader: () => fetch('/warehouses.json').then((res) => res.json()),
+      },
+      {
+        path: '/rider',
+        element: (
+          <PrivateRoute>
+            <Rider />
+          </PrivateRoute>
+        ),
       },
     ],
   },
