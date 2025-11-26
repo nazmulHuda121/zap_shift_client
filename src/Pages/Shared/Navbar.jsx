@@ -44,6 +44,16 @@ const Header = () => {
           Send Parcel
         </NavLink>
       </li>
+
+      {user && (
+        <>
+          <li>
+            <NavLink className="text-gray-500" to={'dashboard/my-parcels'}>
+              My parcels
+            </NavLink>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -78,7 +88,7 @@ const Header = () => {
           <Logo />
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 gap-5">{nav}</ul>
+          <ul className="menu menu-horizontal px-1 gap-4">{nav}</ul>
         </div>
         <div className="navbar-end gap-3">
           {user ? (

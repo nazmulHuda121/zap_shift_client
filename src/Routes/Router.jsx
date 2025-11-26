@@ -12,6 +12,8 @@ import Loading from '../Components/Loading';
 import PrivateRoute from './PrivateRoute';
 import Rider from '../Components/Rider';
 import SendParcel from '../Pages/SendParcel';
+import DashboardLayout from '../Layouts/DashboardLayout';
+import MyParcels from '../Pages/Dashboard/MyParcels';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,7 @@ const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
+        hydrateFallbackElement: <Loading />,
       },
       {
         path: '/service',
@@ -70,6 +73,20 @@ const router = createBrowserRouter([
       {
         path: '/register',
         Component: Register,
+      },
+    ],
+  },
+  {
+    path: 'dashboard',
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: 'my-parcels',
+        Component: MyParcels,
       },
     ],
   },
