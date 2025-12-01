@@ -1,6 +1,6 @@
-import React from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
 import { TbTruckDelivery } from 'react-icons/tb';
+import { MdPayment } from 'react-icons/md';
 
 const DashboardLayout = () => {
   return (
@@ -80,6 +80,19 @@ const DashboardLayout = () => {
                 >
                   <TbTruckDelivery />
                   <span className="is-drawer-close:hidden">My Parcels</span>
+                </NavLink>
+              </li>
+              {/* Payment History */}
+              <li>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Payment History"
+                  to={'/dashboard/payment-history'}
+                >
+                  <MdPayment />
+                  <span className="is-drawer-close:hidden">
+                    Payment History
+                  </span>
                 </NavLink>
               </li>
 

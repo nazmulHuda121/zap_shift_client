@@ -1,5 +1,5 @@
 import { useForm, useWatch } from 'react-hook-form';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 import useAuth from '../hooks/useAuth';
@@ -9,6 +9,7 @@ const SendParcel = () => {
   const { register, control, handleSubmit } = useForm();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const regionsDupli = warehouses.map((ware) => ware.region);
   const regions = [...new Set(regionsDupli)];
@@ -56,12 +57,14 @@ const SendParcel = () => {
             // send the Form Data into the DB
             axiosSecure.post('/parcels', data).then((res) => {
               console.log('after save', res.data);
-            });
-
-            Swal.fire({
-              title: 'Done!',
-              text: 'Your booking is accepted.',
-              icon: 'success',
+              if (res.data.insertedId) {
+                navigate('/dashboard/my-parcels');
+                Swal.fire({
+                  title: 'Done!',
+                  text: 'Your booking is accepted.',
+                  icon: 'success',
+                });
+              }
             });
           }
         });
