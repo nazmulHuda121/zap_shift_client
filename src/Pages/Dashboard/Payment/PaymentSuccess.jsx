@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
-  const [paymentInfo, setPaymentInfo] = useState();
+  const [paymentInfo, setPaymentInfo] = useState({});
   const sessionId = searchParams.get('session_id');
   const axiosSecure = useAxiosSecure();
 
@@ -28,11 +28,11 @@ const PaymentSuccess = () => {
       </h2>
       <p className="text-blue-700">
         <span className="font-semibold text-black">Your Transiction id:</span>{' '}
-        {paymentInfo?.transictionId}
+        {paymentInfo.transictionId}
       </p>
       <p className="text-blue-700">
         <span className="text-black font-semibold">Your Transiction id:</span>{' '}
-        {paymentInfo?.transictionId}
+        {paymentInfo.transictionId}
       </p>
     </div>
   );

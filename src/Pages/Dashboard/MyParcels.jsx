@@ -14,7 +14,6 @@ const MyParcels = () => {
     queryKey: ['my-parcels', user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/parcels?email=${user.email}`);
-      console.log(res.data);
       return res.data;
     },
   });
