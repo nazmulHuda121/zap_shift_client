@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import axios from 'axios';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const Register = () => {
   const {
@@ -11,14 +12,12 @@ const Register = () => {
   } = useForm();
 
   const { registerUser, updateUserProfile } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const handleRegister = async (data) => {
-    console.log(data);
     const profileImg = data.photo[0];
     registerUser(data.email, data.password)
-      .then((res) => {
-        console.log(res);
-
+      .then(() => {
         // 1. Store the image in form data
         const formData = new FormData();
         formData.append('image', profileImg);
@@ -29,13 +28,25 @@ const Register = () => {
         }`;
 
         axios.post(image_API_URI, formData).then((res) => {
-          console.log('after image upload', res.data.data.url);
+          const photoURL = res.data.data.url;
 
           //update user profile to firebase
           const userProfile = {
             displayName: data.name,
-            photoURL: res.data.data.url,
+            photoURL: photoURL,
           };
+
+          // create user in the Database
+          const userInfo = {
+            displayName: data.name,
+            email: data.email,
+            photoURL: photoURL,
+          };
+          axiosSecure.post('/user', userInfo).then((res) => {
+            if (res.data.insertedId) {
+              console.log('user created in the database');
+            }
+          });
 
           updateUserProfile(userProfile)
             .then(() => {

@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log('after login location', location);
+  const axiosSecure = useAxiosSecure();
 
   const {
     register,
@@ -32,13 +33,25 @@ const Login = () => {
       .then((res) => {
         console.log(res.user);
         navigate(location?.state || '/');
+
+        // create user in the Database
+        const userInfo = {
+          displayName: res.user.name,
+          email: res.user.email,
+          photoURL: res.user.photoURL,
+        };
+        axiosSecure.post('/user', userInfo).then((res) => {
+          if (res.data.insertedId) {
+            console.log('user created in the database');
+          }
+        });
       })
       .catch((error) => {
         console.log(error);
       });
   };
   return (
-    <div className="px-26">
+    <div className="px-26 ">
       <h1 className="text-4xl font-extrabold mb-2">Welcome Back</h1>
       <p className="mb-8 text-gray-600">Login with ZapShift</p>
       {/* Form */}

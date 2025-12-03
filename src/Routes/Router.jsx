@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 import MainLayout from '../Layouts/MainLayout';
 import Home from '../Pages/Home';
-import Service from '../Pages/Service';
+import Service from '../Pages/Services';
 import Coverage from '../Pages/Coverage';
 import AboutUs from '../Pages/AboutUs';
 import Pricing from '../Pages/Pricing';
@@ -63,6 +63,7 @@ const router = createBrowserRouter([
             <Rider />
           </PrivateRoute>
         ),
+        loader: () => fetch('/warehouses.json').then((res) => res.json()),
       },
     ],
   },
